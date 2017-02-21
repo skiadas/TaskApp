@@ -13,8 +13,11 @@
    templateStorage = {};
 
    /*
-    * Exported object. `load` is used to store a template, `parse` is used to
-    * parse a stored template.
+    * Exported object. `new` is used to create a template, `get` is used to
+    * retrieve a stored template.
+    *
+    * Template objects themselves have a `parse` method that can be used to
+    * produce the needed substitutions.
     */
    Template = {
       /*
