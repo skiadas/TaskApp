@@ -54,4 +54,4 @@
    Template.prototype = proto;
 
    global.TaskApp.Template = Template;
-}(typeof window === 'undefined' ? root : window));
+}(typeof window === 'undefined' ? global : window));
