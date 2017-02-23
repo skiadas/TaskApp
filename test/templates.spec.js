@@ -7,7 +7,7 @@ require('../js/templates');
 
 describe('The template system', function() {
    it('creates a Template property within TaskApp', function() {
-      expect(root).to.have.property('TaskApp');
-      expect(root.TaskApp).to.have.property('Template');
+      expect(global).to.have.property('TaskApp');
+      expect(global.TaskApp).to.have.property('Template');
    });
 });
