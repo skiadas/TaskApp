@@ -3,7 +3,7 @@
 // This file handles the various templates for us.
 //
 (function(global) {
-   var Template, templateStorage, proto;
+   var Template, templateStorage;
 
    if (!global.hasOwnProperty('TaskApp')) {
       global.TaskApp = {};
@@ -40,7 +40,7 @@
    /*
     * Prototype object for created templates
     */
-   proto = {
+   Template.prototype = {
       /*
        * Parses the template named `name`, using the `values` object
        * to resolve parameter entries. For instance {{foo}} will be
@@ -50,8 +50,6 @@
 
       }
    };
-
-   Template.prototype = proto;
 
    global.TaskApp.Template = Template;
 }(typeof window === 'undefined' ? global : window));
