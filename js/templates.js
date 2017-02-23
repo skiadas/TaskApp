@@ -65,7 +65,10 @@
        * replaced by values.foo
        */
       parse: function(values) {
-
+         // "this" is the template object
+         return this.template.replace(/\{\{(\w+)\}\}/g, function(match, key) {
+            return values[key];
+         });
       }
    };
 

@@ -49,3 +49,24 @@ describe('Template.get', function() {
 		expect(TaskApp.Template.get('notThere')).to.equal(null);
 	});
 });
+describe('Template#parse', function() {
+	var templ;
+
+	templ = TaskApp.Template.new(templName, html1);
+
+	it('exists', function() {
+		expect(templ).to.respondTo('parse');
+	});
+	it('performs the correct substitutions', function() {
+		expect(templ.parse({ hoang: 'van' }))
+			.to.equal('<div>van</div>');
+	});
+	it('performs multiple substitutions', function() {
+		var templ2 = TaskApp.Template.new('cam',
+			'{{term}} is {{feeling}}');
+
+		var result = templ2.parse({ term: 'Winter', feeling: 'fun'});
+
+		expect(result).to.equal('Winter is fun');
+	});
+});
