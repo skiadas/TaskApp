@@ -1,0 +1,22 @@
+{
+  "name": "task-app",
+  "version": "1.0.0",
+  "description": "Manage your tasks with ease",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha tests"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/skiadas/TaskApp.git"
+  },
+  "author": "Charilaos Skiadas",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/skiadas/TaskApp/issues"
+  },
+  "homepage": "https://github.com/skiadas/TaskApp#readme",
+  "dependencies": {
+    "chai": "^3.5.0"
+  }
+}
