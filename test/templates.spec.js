@@ -5,6 +5,9 @@ var expect = chai.expect;
 // Load template file
 require('../js/templates');
 
+var templName = 'slaton';
+var html1 = '<div>{{hoang}}</div>';
+
 describe('The template system', function() {
    it('creates a Template property within TaskApp', function() {
       expect(global).to.have.property('TaskApp');
@@ -16,13 +19,10 @@ describe('The template system', function() {
    });
 });
 describe('Template.new', function() {
-	var templName = 'slaton';
-	var html1 = '<div>{{hoang}}</div>';
-
 	it('returns a "new template"', function() {
 		var templ;
 
-		expect(function() { 
+		expect(function() {
 			templ = TaskApp.Template.new(templName, html1);
 		}).to.not.throw(Error);
 		templ = TaskApp.Template.new(templName, html1);
