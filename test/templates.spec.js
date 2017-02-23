@@ -17,6 +17,10 @@ describe('The template system', function() {
    	expect(TaskApp.Template).to.have.property('new');
    	expect(TaskApp.Template.new).to.be.a('function');
    });
+   it('has a function get', function() {
+   	expect(TaskApp.Template).to.have.property('get');
+   	expect(TaskApp.Template.get).to.be.a('function');
+   });
 });
 describe('Template.new', function() {
 	it('returns a "new template"', function() {
@@ -31,5 +35,17 @@ describe('Template.new', function() {
 	});
 	it('logs a message if template name already exists', function() {
 		// TODO: Need to find out how to do it
+	});
+});
+describe('Template.get', function() {
+	it('returns the correct template', function() {
+		var templ;
+
+		templ = TaskApp.Template.new(templName, html1);
+
+		expect(TaskApp.Template.get(templName)).to.equal(templ);
+	});
+	it('returns null if template does not exist', function() {
+		expect(TaskApp.Template.get('notThere')).to.equal(null);
 	});
 });

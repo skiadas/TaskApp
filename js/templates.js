@@ -47,7 +47,11 @@
        * Returns the template with a given name, or `null` if it does not exist.
        */
       get: function getTemplate(name) {
+         if (!templateStorage.hasOwnProperty(name)) {
+            return null;
+         }
 
+         return templateStorage[name];
       }
    };
 
