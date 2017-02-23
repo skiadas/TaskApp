@@ -18,6 +18,8 @@
     *
     * Template objects themselves have a `parse` method that can be used to
     * produce the needed substitutions.
+    *
+    * The objects have a property `template` holding the actual template text.
     */
    Template = {
       /*
@@ -27,7 +29,19 @@
        * and replaces it.
        */
       new: function newTemplate(name, html) {
+         var templateObject;
 
+         // TODO: Update using getTemplate when that is done
+         if (templateStorage.hasOwnProperty(name)) {
+            console.log('Template already exists with name: ' + name + '. Overwriting.');
+         }
+
+         templateObject = Object.create(Template.prototype);
+         templateObject.template = html;
+
+         templateStorage[name] = templateObject;
+
+         return templateObject;
       },
       /*
        * Returns the template with a given name, or `null` if it does not exist.
