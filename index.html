@@ -32,13 +32,13 @@
 <script id="taskTemplate" type="text/template">
 <div class="task">
 <p>{{title}}</p>
-<input class="completed" type="checkbox" value="{{completed}}"></input>
+<input class="completed" type="checkbox" {{#if completed}}checked="checked"{{/if}}></input>
 </div>
 </script>
 <script id="labelTemplate" type="text/template">
 <div class="label">
 <p>{{tag}}<span><!-- count goes here --></span></p>
-<input class="completed" type="checkbox" value="{{selected}}"></input>
+<input class="completed" type="checkbox" {{#if selected}}checked="checked"{{/if}}></input>
 </div>
 </script>
 <!-- SCRIPT LOADING HERE -->
