@@ -2,6 +2,9 @@
 var chai = require('chai');
 var expect = chai.expect;
 
+// Loads the Handlebars module
+// index.html load it differently
+global.Handlebars = require('handlebars');
 // Load template file
 require('../js/templates');
 

@@ -3,10 +3,14 @@
 // This file handles the various templates for us.
 //
 (function(global) {
+   /* global Handlebars, $ */
    var Template, templateStorage;
 
    if (!global.hasOwnProperty('TaskApp')) {
       global.TaskApp = {};
+   }
+   if (!global.hasOwnProperty('Handlebars')) {
+      throw new Error('Need to have Handlebars loaded first');
    }
 
    // Object keeping the stored templates
@@ -37,9 +41,11 @@
          }
 
          templateObject = Object.create(Template.prototype);
-         templateObject.template = html;
+         templateObject.template = Handlebars.compile(html);
 
          templateStorage[name] = templateObject;
+         // Also make templates available as partials
+         Handlebars.registerPartial(name, html);
 
          return templateObject;
       },
@@ -66,11 +72,26 @@
        */
       parse: function(values) {
          // "this" is the template object
-         return this.template.replace(/\{\{(\w+)\}\}/g, function(match, key) {
-            return values[key];
-         });
+         return this.template(values);
       }
    };
+
+   /*
+    * If this file is loaded on a web page, try to load all "template scripts".
+    * It detects that it must run by making sure jQuery has been loaded.
+    * A "template script" must have an id of the form "fooTemplate" and it must
+    * have a type of "text/template".
+    */
+   if (global.hasOwnProperty('jQuery')) {
+      // Get all scripts whose id ends in Template
+      $('script[id$="Template"]').each(function(index, el) {
+         Template.new(
+            el.id.replace('Template', ''),
+            $(el).html()
+         );
+      });
+   }
+
 
    global.TaskApp.Template = Template;
 }(typeof window === 'undefined' ? global : window));

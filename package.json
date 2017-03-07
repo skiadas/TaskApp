@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/skiadas/TaskApp#readme",
   "dependencies": {
-    "chai": "^3.5.0"
+    "chai": "^3.5.0",
+    "handlebars": "^4.0.5"
   }
 }
