@@ -41,6 +41,16 @@
 <input class="completed" type="checkbox" {{#if selected}}checked="checked"{{/if}}></input>
 </div>
 </script>
+<script id="taskListTemplate" type="text/template">
+<ul>
+{{#each tasks}}
+   <li>
+      {{!--  We are using a partial template here. --}}
+      {{> task}}
+   </li>
+{{/each}}
+</ul>
+</script>
 <!-- SCRIPT LOADING HERE -->
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <script type="text/javascript" src="node_modules/handlebars/dist/handlebars.min.js"></script>
