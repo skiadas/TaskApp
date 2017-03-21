@@ -1,5 +1,4 @@
 // taskListController.js
-
 /*
  * Controller managing the taskList part of the interface
  */
@@ -10,16 +9,22 @@
       global.TaskApp = {};
    }
 
-   /*
-    * Exported object.
-    *
-    * We can create a new TaskListController object using TaskListController.new.
+   /**
+    * Controller that manages a taskList.
+    * We can create a new TaskListController object using `TaskListController.new`.
+    * @module TaskListController
     */
    TaskListController = {
-      /*
-       * Create a new TaskListController.
+      /**
+       * Create a new `TaskListController`.
        *
-       * Needs to be provided with a TaskList instance, and a DOM element.
+       * @param {TaskList} taskList     The `TaskList` instance to manage.
+       * @param {jQuery}   domEl        The DOM Element to use for printing the list.
+       * @returns {TaskListController} A new `TaskListController` instance.
+       * @example TaskListController.new(myList, $('#list'));
+       * @memberof TaskListController
+       * @static
+       * @public
        */
       new: function(taskList, domEl) {
          var TaskListController;
