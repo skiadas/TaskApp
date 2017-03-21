@@ -1,14 +1,29 @@
 // task.js
-
+/* global: Event */
 /*
  * The main model, handling individual Task items.
  */
 (function(global) {
-   var Task;
+   var Task, getAvailableId, allTasks;
 
    if (!global.hasOwnProperty('TaskApp')) {
       global.TaskApp = {};
    }
+
+   getAvailableId = (function() {
+      var counter;
+
+      counter = 0;
+
+      return function() {
+         counter += 1;
+
+         return counter;
+      };
+   }());
+
+   // Object holding all tasks by id
+   allTasks = {};
 
    /*
     * Exported object. Represents the Task class.
@@ -38,11 +53,21 @@
          // Using `this` instead of `Task` here allows for subclassing.
          task = Object.create(this.prototype);
 
+         Object.defineProperty(task, 'id', {
+            writable: false,
+            value: getAvailableId()
+         });
          task.title = title;
          task.labels = [];
          task.completed = false;
 
+         allTasks[task.id] = task;
+
          return task;
+      },
+      // Returns the task with a given id
+      get: function(id) {
+         return allTasks[id];
       }
    };
 
@@ -50,6 +75,9 @@
     * Prototype object for tasks
     */
    Task.prototype = {
+      save: function() {
+         this.trigger('changed', task);
+      },
       // Return the task's title
       getTitle: function() {
          return this.title;
@@ -57,7 +85,7 @@
       // Set the task's title and notify observers
       setTitle: function(newTitle) {
          this.title = newTitle;
-         // TODO: We will need to add event triggers
+         this.save();
 
          return this;
       },
@@ -75,7 +103,7 @@
       addLabel: function(label) {
          if (!this.hasLabel(label)) {
             this.labels.push(label);
-            // TODO: Notify observers on added label
+            this.save();
          }
 
          return this;
@@ -87,6 +115,7 @@
          index = this.labels.indexOf(label);
          if (index !== -1) {
             this.labels.splice(index, 1);
+            this.save();
          }
 
          return this;
@@ -98,11 +127,13 @@
       // Set the completed status
       setCompleted: function(isCompleted) {
          this.completed = isCompleted;
+         this.save();
 
          return this;
       }
    };
 
+   Event.mixin(Task.prototype);
 
    global.TaskApp.Task = Task;
 

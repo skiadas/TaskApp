@@ -1,5 +1,5 @@
 // taskList.js
-
+/* global: Event */
 /*
  * Model handling a list of tasks
  */
@@ -47,7 +47,8 @@
       // Add a new task to the list.
       addTask: function(task) {
          this.tasks.push(task);
-         // TODO: Should post a notification that a new task was created
+         task.on('changed', this.taskChanged, this);
+         this.trigger('taskAdded', task, this);
 
          return this;
       },
@@ -57,8 +58,9 @@
 
          index = this.tasks.indexOf(task);
          if (index !== -1) {
+            task.off('changed', this.taskChanged, this);
             this.tasks.splice(index, 1);
-            // TODO: Should post a notification about the removed task
+            this.trigger('taskRemoved', task, this);
          }
 
          return this;
@@ -68,9 +70,13 @@
          this.tasks.forEach(f);
 
          return this;
+      },
+      taskChanged: function(task) {
+         this.trigger('taskChanged', task, this);
       }
    };
 
+   Event.mixin(TaskList.prototype);
 
    global.TaskApp.TaskList = TaskList;
 
