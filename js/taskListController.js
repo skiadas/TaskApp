@@ -1,6 +1,9 @@
 // taskListController.js
 /*
  * Controller managing the taskList part of the interface
+ *
+ * requires: Task, Template, jQuery
+ * implicitly uses: TaskList
  */
 (function(global) {
    var TaskListController;
@@ -27,7 +30,7 @@
        * @public
        */
       new: function(taskList, domEl) {
-         var TaskListController;
+         var controller;
 
          controller = Object.create(this.prototype);
 
@@ -35,24 +38,21 @@
          controller.taskList = taskList;
          controller.template = TaskApp.Template.get('taskList');
          controller.taskTemplate = TaskApp.Template.get('task');
-         // React to list updates
-         taskList.on('changed', controller.listChanged, controller);
-         taskList.on('taskChanged', controller.taskChanged, controller);
-         taskList.on('taskAdded', controller.taskAdded, controller);
-         taskList.on('taskRemoved', controller.taskRemoved, controller);
-         // React to user interaction
-         domEl.on('click', '#addTask', function(ev) { controller.addTask(ev); });
-         domEl.on('click', '.deleteTask', function(ev) { controller.deleteTask(ev); });
-         domEl.on('dblclick', '.task', function(ev) { controller.startTaskEdit(); });
-         domEl.on('keydown', '#edit', function(ev) { controller.editReactToKey(); });
-         domEl.on('click', '.completedStatus', function(ev) { controller.setCompleted(ev); });
-         // TODO: Add reactions to label operations
+
+         controller.listenToListChanges();
+         controller.listenToUserInput();
 
          controller.update();
 
          return controller;
       }
    };
+
+
+   function listChanged() {
+      // TODO: Anything else?
+      this.update();
+   }
 
    /*
     * Prototype object for TaskListController.
@@ -66,20 +66,44 @@
 
          return this;
       },
-      changed: function() {
-         this.update();
+      listenToListChanges: function() {
+         // React to list updates
+         this.taskList.on('changed', listChanged, this);
+         this.taskList.on('taskChanged', taskChanged, this);
+         this.taskList.on('taskAdded', taskAdded, this);
+         this.taskList.on('taskRemoved', taskRemoved, this);
+      },
+      listenToUserInput: function() {
+         // React to user interaction
+         domEl.on('click', '#addTask', function(ev) { controller.addTask(ev); });
+         domEl.on('click', '.deleteTask', function(ev) { controller.deleteTask(ev); });
+         domEl.on('dblclick', '.task', function(ev) { controller.startTaskEdit(); });
+         domEl.on('keydown', '#edit', function(ev) { controller.editReactToKey(); });
+         domEl.on('click', '.completedStatus', function(ev) { controller.setCompleted(ev); });
+         // TODO: Add reactions to label operations
       },
       taskChanged: function(task) {
          // TODO:
          // Find the DOM element that has this task, using the task's id
          // Change the task with its new form using taskTemplate, and animate
       },
+      /**
+       * Internal method that responds to tasks being added to the
+       * taskList and updates the UI.
+       *
+       * You should not call this method directly.
+       *
+       * @param {Task} task    The added task.
+       * @memberof TaskListController
+       * @instance
+       */
       taskAdded: function(task) {
+         var parsedTask;
          // Use the task template to create a new task UI element.
+         parsedTask = $(this.taskTemplate.parse(task));
          // Append to the end of the list
-         this.el.find('ul').append(
-            $(this.taskTemplate.parse(task)).hide().fadeIn(1000)
-         );
+         this.el.find('ul').append(parsedTask.hide());
+         parsedTask.fadeIn(1000);
       },
       taskRemoved: function(task) {
          // TODO:
