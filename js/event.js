@@ -87,6 +87,9 @@ var Event = (function() {
         args = Array.prototype.slice.call(arguments, 1);
         getTopicEvents(this, topic)
             .forEach(function(observer) {
+                if (typeof observer.handler !== 'function') {
+                    console.log('Skipping calling of non-function handler');
+                }
                 callObserver(observer.handler, observer.context, args);
             });
 
