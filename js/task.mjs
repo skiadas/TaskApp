@@ -2,6 +2,7 @@
 /*
  * The main model, handling individual Task items.
  */
+import Event from './event.mjs';
 
 let taskCounter = 0;
 
@@ -89,6 +90,6 @@ Task.get = function(id) {
   return allTasks.get(id);
 };
 
- // Event.mixin(Task.prototype);
+ Event.mixin(Task.prototype);
 
 
