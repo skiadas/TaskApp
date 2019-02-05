@@ -1,6 +1,6 @@
 // Run tests via: NODE_OPTIONS="--experimental-modules" mocha --delay test.esm.js
-import * as chai from 'chai';
-let expect = chai.default.expect;
+import chai from 'chai';
+let expect = chai.expect;
 
 import Person from './simpleModule.mjs';
 
