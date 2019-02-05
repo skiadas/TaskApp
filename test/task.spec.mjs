@@ -1,33 +1,15 @@
 // set up chai
-var chai = require('chai');
-var expect = chai.expect;
+import chai from 'chai';
+let expect = chai.expect;
 
-// Loads the Handlebars module
-// index.html load it differently
-global.Handlebars = require('handlebars');
-// Load Task class
-require('../js/task');
-
-var Task;
-
-if (typeof TaskApp !== 'undefined') {
-   Task = TaskApp.Task;
-}
+import Task from '../js/task';
 
 describe('Task class', function() {
-   it('is a property of the TaskApp global', function() {
-      expect(global).to.have.property('TaskApp');
-      expect(global.TaskApp).to.have.property('Task');
-   });
-   it('has a Task.new constructor', function() {
-      expect(Task).to.respondTo('new');
-      expect(function() { Task.new(); }).to.not.throw(Error);
-   });
    describe('produces task objects', function() {
       it('with methods getTitle, setTitle', function() {
-         var title = 'Hello there!';
-         var otherTitle = 'Alternative!';
-         var task = Task.new(title);
+         let title = 'Hello there!';
+         let otherTitle = 'Alternative!';
+         let task = new Task(title);
 
          expect(task).to.respondTo('getTitle');
          expect(task).to.respondTo('setTitle');
@@ -36,7 +18,7 @@ describe('Task class', function() {
          expect(task.getTitle()).to.equal(otherTitle);
       });
       it('with methods isCompleted, setCompleted', function() {
-         var task = Task.new('a title');
+         let task = new Task('a title');
 
          expect(task).to.respondTo('isCompleted');
          expect(task).to.respondTo('setCompleted');
@@ -45,9 +27,9 @@ describe('Task class', function() {
          expect(task.isCompleted()).to.equal(true);
       });
       it('with methods getLabels, addLabel, hasLabel, removeLabel', function() {
-         var task = Task.new('a title');
-         var label1 = 'a label';
-         var label2 = 'another label';
+         let task = new Task('a title');
+         let label1 = 'a label';
+         let label2 = 'another label';
 
          expect(task).to.respondTo('getLabels');
          expect(task).to.respondTo('addLabel');
@@ -69,5 +51,10 @@ describe('Task class', function() {
          expect(task.hasLabel(label1)).to.equal(false);
          expect(task.hasLabel(label2)).to.equal(true);
       });
+   });
+   it('allows us to access tasks by id', function() {
+      let task1 = new Task();
+      let task2 = Task.get(task1.id);
+      expect(task2).to.equal(task1);
    });
 });
