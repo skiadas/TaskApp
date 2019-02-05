@@ -12,7 +12,7 @@ function getAvailableId() {
 }
 
  // Object holding all tasks by id
- let allTasks = {};
+ let allTasks = new Map();
 
  /*
   * Exported object. Represents the Task class.
@@ -34,7 +34,7 @@ function getAvailableId() {
        this.labels = [];
        this.completed = false;
 
-       allTasks[this.id] = this;
+       allTasks.set(this.id, this);
     }
     save() {
        // this.trigger('changed', task);
@@ -86,7 +86,7 @@ function getAvailableId() {
 
 // Returns the task with a given id
 Task.get = function(id) {
-  return allTasks[id];
+  return allTasks.get(id);
 };
 
  // Event.mixin(Task.prototype);
