@@ -38,8 +38,7 @@ function getAvailableId() {
        allTasks.set(this.id, this);
     }
     save() {
-       // this.trigger('changed', task);
-       // TODO: Fix this once tests pass
+       this.trigger('changed', this);
     }
 
     getTitle() { return this.title; }
@@ -90,6 +89,6 @@ Task.get = function(id) {
   return allTasks.get(id);
 };
 
- Event.mixin(Task.prototype);
+Event.mixin(Task.prototype);
 
 

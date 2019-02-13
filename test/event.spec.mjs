@@ -1,5 +1,10 @@
 // Run tests via: NODE_OPTIONS="--experimental-modules" mocha --delay test.esm.js
-import chai from 'chai';
+//
+// Normally we would want to do this import:
+// import chai from 'chai';
+// But this won't work in both browser and node. So in browser we load the chai package
+// remotely in another script tag, while in node we load it globally in test.esm.js
+
 let expect = chai.expect;
 
 import Event from '../js/event.mjs';
