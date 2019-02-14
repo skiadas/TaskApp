@@ -7,9 +7,9 @@ import Event from './event.mjs';
 let taskCounter = 0;
 
 function getAvailableId() {
-  taskCounter += 1;
+    taskCounter += 1;
 
-  return taskCounter;
+    return taskCounter;
 }
 
  // Object holding all tasks by id
@@ -27,48 +27,41 @@ function getAvailableId() {
   */
  export default class Task {
     constructor(title) {
-       if (typeof title === 'undefined') {
-          title = '';
-       }
-       this.title = title;
-       this.id = getAvailableId();
-       this.labels = [];
-       this.completed = false;
+        if (typeof title === 'undefined') {
+            title = '';
+        }
+        this.title = title;
+        this.id = getAvailableId();
+        this.labels = new Set();
+        this.completed = false;
 
-       allTasks.set(this.id, this);
+        allTasks.set(this.id, this);
     }
     save() {
-       this.trigger('changed', this);
+        this.trigger('changed', this);
     }
 
     getTitle() { return this.title; }
     setTitle(newTitle) {
-       this.title = newTitle;
+        this.title = newTitle;
+        this.save();
+
+        return this;
+    }
+
+    getLabels() { return Array.from(this.labels); }
+    hasLabel(label) {
+       return this.labels.has(label);
+    }
+    addLabel(label) {
+       this.labels.add(label);
        this.save();
 
        return this;
     }
-
-    getLabels() { return this.labels; }
-    hasLabel(label) {
-       return this.labels.indexOf(label) !== -1;
-    }
-    addLabel(label) {
-       if (!this.hasLabel(label)) {
-          this.labels.push(label);
-          this.save();
-       }
-
-       return this;
-    }
     removeLabel(label) {
-       var index;
-
-       index = this.labels.indexOf(label);
-       if (index !== -1) {
-          this.labels.splice(index, 1);
-          this.save();
-       }
+       this.labels.delete(label);
+       this.save();
 
        return this;
     }
@@ -76,17 +69,17 @@ function getAvailableId() {
        return this.completed;
     }
     setCompleted(isCompleted) {
-       this.completed = isCompleted;
-       this.save();
+        this.completed = isCompleted;
+        this.save();
 
-       return this;
+        return this;
     }
 
- }
+}
 
 // Returns the task with a given id
 Task.get = function(id) {
-  return allTasks.get(id);
+    return allTasks.get(id);
 };
 
 Event.mixin(Task.prototype);
