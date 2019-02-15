@@ -10,16 +10,8 @@
    </header>
    <main>
       <section id="filters">
-         <div class="filter" id="postsChoice">
-            <h3>Posts to show</h3>
-            <!-- TODO: Add radio buttons -->
-         </div>
-         <div class="filter" id="labelsList">
-            <h3>Labels</h3>
-            <ul>
-              <!-- Labels will be added dynamically using the template -->
-            </ul>
-         </div>
+         <div class="filter" id="postsChoice"></div>
+         <div class="filter" id="labelsList"></div>
       </section>
       <section id="tasks">
       </section>
@@ -27,53 +19,16 @@
    <footer>
    </footer>
 <!-- Normal page info ends here. Some scripts load further down. -->
-<!-- This is the template for a task. It is not actually treated as Javascript code
-     the curly  braces are placeholders for dynamically generated values -->
-<script id="taskTemplate" type="text/template">
-<li class="task" data-id="{{id}}">
-<p>{{title}}</p>
-<input class="completed" type="checkbox" {{#if completed}}checked="checked"{{/if}}></input>
-</li>
-</script>
-<script id="labelTemplate" type="text/template">
-<div class="label">
-<p>{{tag}}<span><!-- count goes here --></span></p>
-<input class="completed" type="checkbox" {{#if selected}}checked="checked"{{/if}}></input>
-</div>
-</script>
-<script id="taskListTemplate" type="text/template">
-<h3>Tasks here!</h3>
-<ul>
-{{#each tasks}}
-   {{!--  We are using a partial template here. --}}
-   {{> task}}
-{{/each}}
-</ul>
-<div id="newTask">
-   <input class="title" type="input"></input>
-   <input id="addTask" type="button" value="Add"></input>
-</div>
-<!-- This input element is by default not visible. It is placed wherever we decide to edit an elements title -->
-<input id="edit" class="title" type="input" style="display: none"></input>
-</script>
 <!-- SCRIPT LOADING HERE -->
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-<script type="text/javascript" src="node_modules/handlebars/dist/handlebars.min.js"></script>
-<script type="text/javascript" src="js/event.js"></script>
-<script type="text/javascript" src="js/templates.js"></script>
-<script type="text/javascript" src="js/event.js"></script>
-<script type="text/javascript" src="js/taskList.js"></script>
-<script type="text/javascript" src="js/label.js"></script>
-<script type="text/javascript" src="js/task.js"></script>
-<script type="text/javascript" src="js/filters.js"></script>
-<script type="text/javascript" src="js/taskListController.js"></script>
-<script type="text/javascript">
+<script type="module">
+import UI from './js/ui.mjs';
+import TaskListController from './js/taskListController.mjs';
+import TaskList from './js/taskList.mjs';
 // Here we start things up.
-// Create a new controller and give it a taskList to manage.
-// Link it to the DOM element with id tasks.
-TaskApp.TaskListController.new(
-   TaskApp.TaskList.new(),
-   $('#tasks')
+new TaskListController(
+   new TaskList(),
+   new UI($('#tasks'))
 );
 </script>
 </body>

@@ -1,5 +1,5 @@
 // taskList.js
-import Event from './event';
+import Event from './event.mjs';
 
 export default class TaskList {
     constructor() {

@@ -41,6 +41,13 @@ function getAvailableId() {
         this.trigger('changed', this);
     }
 
+    update(changes) {
+        if ('title' in changes) { this.title = changes.title; }
+        if ('completed' in changes) { this.completed = changes.completed; }
+        // TODO: More?
+        this.save();
+    }
+
     getTitle() { return this.title; }
     setTitle(newTitle) {
         this.title = newTitle;
